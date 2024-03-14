@@ -1,9 +1,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import { useToast } from "@/components/ui/use-toast"
-
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
 import { Input } from "@/components/ui/input";
@@ -13,14 +12,16 @@ import { SignupValidation } from "@/lib/validation";
 import { z } from "zod";
 import Loader from "@/components/shared/Loader";
 import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queriesAndMutations";
-
+import { useUserContext } from "@/context/AuthContext";
 
 
 const SignupForm = () => {
     const { toast } = useToast();
+    const { checkAuthUser, isLoading, isUserLoading } = useUserContext();
+    const navigate = useNavigate();
 
-    const { mutateAsync: createUserAccount, isLoading: isCreatingUser} = useCreateUserAccount();
-    const { mutateAsync: signInAccount, isLoading: isSigningIn}= useSignInAccount();
+    const { mutateAsync: createUserAccount, isLoading: isCreatingUser } = useCreateUserAccount();
+    const { mutateAsync: signInAccount, isLoading: isSigningIn } = useSignInAccount();
 
 
     // 1. Define your form.
@@ -33,7 +34,6 @@ const SignupForm = () => {
             password: '',
         },
     })
-
 
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof SignupValidation>) {
@@ -49,8 +49,17 @@ const SignupForm = () => {
             password: values.password,
         })
 
-        if(!session) {
-            return toast({ title:'Sign in failed. Please try again.'})
+        if (!session) {
+            return toast({ title: 'Sign in failed. Please try again.' })
+        }
+
+        const isLoggedIn = await checkAuthUser();
+
+        if (isLoggedIn) {
+            form.reset();
+            navigate('/')
+        } else {
+            return toast({ title: 'Sign up failed. Please try again.' })
         }
     }
 
