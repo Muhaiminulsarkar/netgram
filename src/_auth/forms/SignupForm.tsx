@@ -50,7 +50,7 @@ const SignupForm = () => {
         })
 
         if (!session) {
-            toast({ title: 'Sign in failed. Please try again.' });
+            return toast({ title: 'Sign in failed. Please try again.' });
         }
 
         const isLoggedIn = await checkAuthUser();
@@ -60,8 +60,8 @@ const SignupForm = () => {
 
             navigate("/");
         } else {
-           toast({ title: 'Sign up failed. Please try again.' });
-           return;
+            toast({ title: 'Sign up failed. Please try again.' });
+            return;
         }
     }
 
