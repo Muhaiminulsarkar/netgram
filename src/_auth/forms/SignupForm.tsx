@@ -17,11 +17,11 @@ import { useUserContext } from "@/context/AuthContext";
 
 const SignupForm = () => {
     const { toast } = useToast();
-    const { checkAuthUser, isLoading, isUserLoading } = useUserContext();
     const navigate = useNavigate();
+    const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
-    const { mutateAsync: createUserAccount, isLoading: isCreatingUser } = useCreateUserAccount();
-    const { mutateAsync: signInAccount, isLoading: isSigningIn } = useSignInAccount();
+    const { mutateAsync: createUserAccount, isPending: isCreatingAccount } = useCreateUserAccount();
+    const { mutateAsync: signInAccount, isPending: isSigningIn } = useSignInAccount();
 
 
     // 1. Define your form.
@@ -33,7 +33,7 @@ const SignupForm = () => {
             email: '',
             password: '',
         },
-    })
+    });
 
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof SignupValidation>) {
@@ -50,16 +50,18 @@ const SignupForm = () => {
         })
 
         if (!session) {
-            return toast({ title: 'Sign in failed. Please try again.' })
+            toast({ title: 'Sign in failed. Please try again.' });
         }
 
         const isLoggedIn = await checkAuthUser();
 
         if (isLoggedIn) {
             form.reset();
-            navigate('/')
+
+            navigate("/");
         } else {
-            return toast({ title: 'Sign up failed. Please try again.' })
+           toast({ title: 'Sign up failed. Please try again.' });
+           return;
         }
     }
 
@@ -125,7 +127,7 @@ const SignupForm = () => {
                         )}
                     />
                     <Button type="submit" className="shad-button_primary">
-                        {isCreatingUser ? (
+                        {isCreatingAccount ? (
                             <div className="flex-center gap-2">
                                 <Loader /> Loading...
                             </div>
