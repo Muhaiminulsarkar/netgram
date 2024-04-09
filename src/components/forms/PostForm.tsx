@@ -4,7 +4,8 @@ import * as z from "zod"
 import { useNavigate } from "react-router-dom"
 
 import { Button } from "@/components/ui/button"
-import { FormControl, Form, FormField, FormItem, FormLabel, FormMessage,
+import {
+    FormControl, Form, FormField, FormItem, FormLabel, FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "../ui/textarea"
@@ -89,7 +90,7 @@ const PostForm = ({ post }: PostFormProps) => {
                     name="location"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className="shad-form_label">Add Location</FormLabel>
+                            <FormLabel className="shad-form_label">Add Location : </FormLabel>
                             <FormControl>
                                 <Input type="text" className="shad-input" {...field} />
                             </FormControl>
