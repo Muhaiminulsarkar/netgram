@@ -8,15 +8,15 @@ const CreatePost = () => {
   w-full">
           <img
             src="/assets/icons/add-post.svg"
-            width={36}
-            height={36}
+            width={37}
+            height={37}
             alt="add"
           />
           <h2 className="h3-bold md:h2-bold text-left w-full">Create
             Post</h2>
         </div>
 
-        <PostForm/>
+        <PostForm />
       </div>
     </div>
   )
