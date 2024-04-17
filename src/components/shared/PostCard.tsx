@@ -1,3 +1,4 @@
+import { formatDateString } from "@/lib/utils";
 import { Models } from "appwrite";
 import { Link } from "react-router-dom";
 
@@ -18,12 +19,16 @@ const PostCard = ({ post }: PostCardProps) => {
           </Link>
 
           <div className="flex flex-col">
-            <p>
+            <p className="base-medium lg:body-bold text-light-1">
               {post.creator.name}
             </p>
-            <div>
-              <p>
-                {post.$createdAt}
+            <div className="flex-center gap-2 text-light-3">
+              <p className="subtle-semibold lg:small-regular">
+                {formatDateString(post.$createdAt)}
+              </p>
+              -
+              <p className="subtle-semibold lg:small-regular">
+                {post.location}
               </p>
             </div>
           </div>
