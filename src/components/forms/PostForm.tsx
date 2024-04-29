@@ -18,9 +18,10 @@ import { useToast } from "../ui/use-toast"
 
 type PostFormProps = {
     post?: Models.Document;
+    action: 'Create' | 'Update';
 }
 
-const PostForm = ({ post }: PostFormProps) => {
+const PostForm = ({ post, action }: PostFormProps) => {
     const { mutateAsync: createPost, isPending: isLoadingCreate } = useCreatePost();
     const { user } = useUserContext();
     const { toast } = useToast();
@@ -52,6 +53,8 @@ const PostForm = ({ post }: PostFormProps) => {
 
         navigate('/');
     }
+
+    
 
     return (
         <Form {...form}>
